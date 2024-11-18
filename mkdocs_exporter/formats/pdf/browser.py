@@ -35,7 +35,14 @@ class Browser:
     self.context = None
     self._launched = False
     self.playwright = None
-    self.lock = asyncio.Lock()
+    try:
+      self.lock = asyncio.Lock()
+    except RuntimeError as e:
+      if 'no current event loop' in str(e):
+        asyncio.set_event_loop(asyncio.new_event_loop())
+        self.lock = asyncio.Lock()
+      else:
+        raise
     self.debug = options.get('debug', False)
     self.headless = options.get('headless', True)
     self.timeout = options.get('timeout', 60_000)
