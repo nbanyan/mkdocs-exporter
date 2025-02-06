@@ -194,7 +194,6 @@ class Plugin(BasePlugin[Config]):
         pass
 
 
-
   @event_priority(-100)
   def _on_post_build_3(self, **kwargs) -> None:
     """Invoked after the build process."""
